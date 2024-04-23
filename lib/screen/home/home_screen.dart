@@ -3,7 +3,6 @@ import 'package:demo/screen/home/controller/home_controller.dart';
 import 'package:demo/utils/app_colors.dart';
 import 'package:demo/utils/app_utils.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +21,7 @@ class HomeScreen extends GetView<HomeController> {
         actions: [
           GestureDetector(
             onTap:  () {
-              AppUtils().launchAnyUrl("https://google.com");
+              AppUtils().launchAnyUrl("https://github.com/darshak815/pixabay_gallary");
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
