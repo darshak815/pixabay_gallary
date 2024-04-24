@@ -127,28 +127,32 @@ class HomeScreen extends GetView<HomeController> {
                                           children: [
                                             Expanded(
                                                 child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                                               child: Wrap(
                                                 children: [
                                                   const Icon(
                                                     Icons.thumb_up,
-                                                    size: 20,
+                                                    size: 18,
                                                   ),
                                                   const SizedBox(width: 10),
-                                                  Text('${modelHits.likes ?? 0}', maxLines: 1, overflow: TextOverflow.ellipsis),
+                                                  Text(
+                                                    '${modelHits.likes ?? 0}',
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
                                                 ],
                                               ),
                                             )),
                                             const SizedBox(width: 10),
                                             Expanded(
                                                 child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                                               child: Wrap(
                                                 alignment: WrapAlignment.end,
                                                 children: [
                                                   const Icon(
                                                     Icons.remove_red_eye,
-                                                    size: 20,
+                                                    size: 18,
                                                   ),
                                                   const SizedBox(width: 10),
                                                   Text(
