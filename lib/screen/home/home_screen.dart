@@ -43,7 +43,41 @@ class HomeScreen extends GetView<HomeController> {
           return Obx(
             () => Column(
               children: [
-                if (controller.listImages.isNotEmpty && controller.isInternet.isTrue)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: controller.controllerSearch,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      filled: true,
+                      hintStyle: TextStyle(color: Colors.grey[800]),
+                      hintText: "Search creative images (Black shadow, Happy, etc.)",
+                      fillColor: Colors.white70,
+                    ),
+                    onChanged: (value) {
+                      controller.debouncer.run(() {
+                        if (value.trim().isNotEmpty) {
+                          controller.listImages.clear();
+                          controller.page = 1;
+                          controller.fetchImages(
+                            page: "1",
+                            query: value.trim(),
+                          );
+                        }
+                      });
+                    },
+                  ),
+                ),
+                if (controller.isError.isTrue) // For API Search result not found
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                    controller.message,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ))),
+                if (controller.listImages.isNotEmpty && controller.isInternet.isTrue) // For API Search result data found
                   Expanded(
                       child: GridView.builder(
                           itemCount: controller.listImages.length,
@@ -134,7 +168,7 @@ class HomeScreen extends GetView<HomeController> {
                               ),
                             );
                           })),
-                if (controller.isInternet.isFalse && controller.listImages.isEmpty)
+                if (controller.isInternet.isFalse && controller.listImages.isEmpty) // For Internet connection problem
                   Expanded(
                       child: Center(
                     child: Column(
@@ -142,7 +176,10 @@ class HomeScreen extends GetView<HomeController> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(noInternetMessage),
+                        Text(
+                          noInternetMessage,
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
                         MaterialButton(
                           onPressed: () {
                             controller.fetchImages(page: '${controller.page}');
@@ -153,7 +190,7 @@ class HomeScreen extends GetView<HomeController> {
                       ],
                     ),
                   )),
-                if (controller.page == 1 && controller.listImages.isEmpty)
+                if (controller.isError.isFalse && (controller.page == 1 && controller.listImages.isEmpty))
                   const Expanded(
                     child: SizedBox(
                       width: double.infinity,
