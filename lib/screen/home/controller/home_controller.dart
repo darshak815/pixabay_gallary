@@ -1,7 +1,7 @@
 import 'package:demo/utils/app_utils.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../model/pixabay_response_model.dart';
 import '../../../utils/networking/repository.dart';
@@ -15,6 +15,7 @@ class HomeController extends GetxController {
   ScrollController scrollController = ScrollController(); // Scroll controller attach with gridview
   num page = 1; // current page
   String totalCount = "0";
+  final dio = Dio();
 
   @override
   void onInit() {
@@ -47,8 +48,7 @@ class HomeController extends GetxController {
 
   /// API called for fetch list of images from Pixabay API
   fetchImages({String page = "1", String perPage = "30", bool isLoading = true}) async {
-    final Repository dataRepository = Repository(context: Get.context!);
-    var modelResponse = await dataRepository.listOfImages({
+    var modelResponse = await Repository().listOfImagesUsingDio({
       "key": "43539926-c7b65b11ef86f29105ffcb7d0",
       "q": "yellow flowers",
       "image_type": "photo",
@@ -65,14 +65,16 @@ class HomeController extends GetxController {
         isMore = false.obs;
         if (page == "1") {
           totalCount = '${model.total ?? 0}';
+        } else {
+          AppUtils().snackBarMessage("Data loaded successfully", title: "Success");
         }
         listImages.addAll(model.hits ?? []);
       }
-    } else if (modelResponse is http.Response) {
+    } else if (modelResponse is String) {
       /// Here, HTTP error response handle
-      http.Response response = modelResponse;
+      String errorMessage = modelResponse;
       isInternet = true.obs;
-      AppUtils().snackBarMessage(response.body, title: "HTTP Error");
+      AppUtils().snackBarMessage(errorMessage, title: "API Error");
     } else {
       /// Here, Something wrong (No Network Available)
       if (listImages.isEmpty) {
