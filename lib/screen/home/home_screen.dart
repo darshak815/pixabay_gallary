@@ -20,7 +20,7 @@ class HomeScreen extends GetView<HomeController> {
         centerTitle: false,
         actions: [
           GestureDetector(
-            onTap:  () {
+            onTap: () {
               AppUtils().launchAnyUrl("https://github.com/darshak815/pixabay_gallary");
             },
             child: Padding(
@@ -65,10 +65,11 @@ class HomeScreen extends GetView<HomeController> {
                           ),
                           itemBuilder: (context, index) {
                             Hits modelHits = controller.listImages[index];
+                            int number = AppUtils().randomNumberGenerate(number: modelHits.id ?? 100);
                             return GestureDetector(
                               onTap: () {
                                 Get.toNamed('${AppPages.initial}${AppPages.detail}',
-                                    arguments: modelHits, parameters: {'refId': '${modelHits.id}', "data": modelHits.webformatURL ?? ''});
+                                    arguments: modelHits, parameters: {'refId': '$number', "data": modelHits.webformatURL ?? ''});
                               },
                               child: Card(
                                 clipBehavior: Clip.antiAlias,
@@ -78,7 +79,7 @@ class HomeScreen extends GetView<HomeController> {
                                   children: [
                                     Hero(
                                       /// for animation purpose hero widget used
-                                      tag: 'image_full_${modelHits.id ?? 0}',
+                                      tag: 'image_full_$number',
                                       child: FastCachedImage(
                                         url: modelHits.webformatURL ?? '',
                                         fit: BoxFit.cover,

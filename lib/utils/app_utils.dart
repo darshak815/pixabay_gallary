@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../route/locator.dart';
 import '../route/navigation_service.dart';
 import 'app_colors.dart';
+import 'dart:math';
 
 class AppUtils {
   Future<void> showProgressDialog() {
@@ -70,10 +71,22 @@ class AppUtils {
   }
 
   snackBarMessage(String message, {String title = "Oops!"}) {
-    Get.snackbar(title, message, snackPosition: SnackPosition.BOTTOM);
+    Get.snackbar(
+      title,
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: colorBlue,
+      colorText: colorWhite
+    );
   }
 
   Future<void> launchAnyUrl(String url) async {
     launchUrl(Uri.parse(url));
+  }
+
+  int randomNumberGenerate({int number = 100}) {
+    Random random = Random();
+    int randomNumber = random.nextInt(number);
+    return randomNumber;
   }
 }

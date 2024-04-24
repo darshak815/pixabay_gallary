@@ -42,10 +42,11 @@ class DetailScreen extends GetView<DetailController> {
                       final Widget toHero = toContext.widget;
                       if (direction == HeroFlightDirection.pop) {
                         return FadeTransition(
-                          opacity: const AlwaysStoppedAnimation(0),
+                          opacity: const AlwaysStoppedAnimation(1),
                           child: toHero,
                         );
                       } else {
+                        // return toHero;
                         return FadeTransition(opacity: const AlwaysStoppedAnimation(0), child: toHero);
                       }
                     },
